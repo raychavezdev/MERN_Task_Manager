@@ -19,11 +19,11 @@ const TaskFormPage = () => {
     })();
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     if (params.id) {
-      updateTask(params.id, data);
+      await updateTask(params.id, data);
     } else {
-      createTask(data);
+      await createTask(data);
     }
     navigate("/tasks");
   });
