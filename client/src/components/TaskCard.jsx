@@ -19,28 +19,32 @@ const TaskCard = ({ task, isModal }) => {
       {isOpen && <TaskCardModal close={closeCardModal} task={task} />}
       <div
         onClick={() => (!isModal ? openCardModal(task) : null)}
-        className={`bg-zinc-800 rounded-md h-80 grid grid-rows-9 shadow-sm shadow-slate-950 cursor-pointer ${
-          isModal ? "h-auto max-h-modal" : ""
+        className={`bg-zinc-800 rounded-md grid grid-rows-9 shadow-sm shadow-slate-950 cursor-pointer ${
+          isModal ? "h-auto max-h-modal" : "h-80"
         }`}
       >
         <header
-          className={`py-2 bg-black lg:py-4 row-span-2 px-4 line-clamp-1 flex items-center rounded-t-md ${
-            isModal ? "row-span-1" : ""
+          className={`py-2 bg-black lg:py-4  px-4 line-clamp-1 flex items-center rounded-t-md ${
+            isModal ? "row-span-1" : "row-span-2"
           }`}
         >
-          <h1 className={`text-2xl text-slate-100 font-bold truncate`}>
+          <h1
+            className={`text-xl md:text-2xl text-slate-100 font-bold  ${
+              isModal ? "overflow-auto break-words" : "truncate"
+            }`}
+          >
             {task.title}
           </h1>
         </header>
 
         <div
-          className={`py-3 lg:py-6 break-words row-span-5 px-4 ${
-            isModal ? "overflow-auto" : ""
+          className={`py-3 lg:py-6 break-words  px-4  ${
+            isModal ? "overflow-auto row-span-6" : "overflow-hidden row-span-5"
           }`}
         >
           <p
-            className={`text-slate-200 line-clamp-6 whitespace-pre-wrap ${
-              isModal ? "line-clamp-none" : ""
+            className={`text-slate-200 whitespace-pre-wrap ${
+              isModal ? "line-clamp-none" : "line-clamp-6"
             }`}
           >
             {task.description}
@@ -50,7 +54,7 @@ const TaskCard = ({ task, isModal }) => {
         <p className="py-1 row-span-1 px-4 text-slate-500">
           {new Date(task.date).toLocaleDateString()}
         </p>
-        <div className="flex gap-2 py-1 items-center border-t border-white  row-span-1  px-4 text-center">
+        <footer className="flex gap-2 py-1 items-center border-t border-white  row-span-1  px-4 text-center">
           <Link
             onClick={handleClick}
             className="bg-blue-500/70 rounded-sm px-1 w-14 hover:brightness-125"
@@ -67,7 +71,7 @@ const TaskCard = ({ task, isModal }) => {
           >
             Delete
           </button>
-        </div>
+        </footer>
       </div>
     </>
   );
