@@ -10,5 +10,6 @@ export const {
     DB_NAME = 'notes',
     CORS_ORIGIN='http://localhost:5173',
     BACKEND_HOST='http://localhost',
-    NODE_ENV='local'
+    NODE_ENV='local',
+    FRONTEND_ORIGIN="localhost"
 } = process.env

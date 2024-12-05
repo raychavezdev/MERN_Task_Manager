@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET,BACKEND_HOST,NODE_ENV, CORS_ORIGIN } from "../config.js";
+import { TOKEN_SECRET,NODE_ENV, FRONTEND_ORIGIN } from "../config.js";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 
     const isProduction = NODE_ENV === 'production'
     res.cookie("token", token,{
-      domain: isProduction? CORS_ORIGIN:"",
+      domain: isProduction? FRONTEND_ORIGIN:"",
       httpOnly: isProduction,
       secure:isProduction,
       sameSite:isProduction ? 'none' : 'lax',
@@ -62,7 +62,7 @@ export const login = async (req, res) => {
 
     const isProduction = NODE_ENV === 'production'
     res.cookie("token", token,{
-      domain: isProduction? CORS_ORIGIN:"",
+      domain: isProduction? FRONTEND_ORIGIN:"",
       httpOnly: isProduction,
       secure:isProduction,
       sameSite:isProduction ? 'none' : 'lax',
