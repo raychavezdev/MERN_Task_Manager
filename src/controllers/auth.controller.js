@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
-import { TOKEN_SECRET,BACKEND_HOST } from "../config.js";
+import { TOKEN_SECRET,BACKEND_HOST,NODE_ENV, CORS_ORIGIN } from "../config.js";
 
 export const register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -21,12 +21,16 @@ export const register = async (req, res) => {
     const userSaved = await newUser.save();
     const token = await createAccessToken({ id: userSaved.id });
 
+
+    const isProduction = NODE_ENV === 'production'
     res.cookie("token", token,{
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000
+      domain: isProduction? CORS_ORIGIN:"",
+      httpOnly: isProduction,
+      secure:isProduction,
+      sameSite:isProduction ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000, 
     });
+
     return res.json({
       id: userSaved.id,
       username: userSaved.username,
@@ -56,12 +60,15 @@ export const login = async (req, res) => {
 
     const token = await createAccessToken({ id: userFound.id });
 
+    const isProduction = NODE_ENV === 'production'
     res.cookie("token", token,{
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+      domain: isProduction? CORS_ORIGIN:"",
+      httpOnly: isProduction,
+      secure:isProduction,
+      sameSite:isProduction ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000, 
+    })
+
     return res.json({
       id: userFound.id,
       username: userFound.username,
@@ -77,9 +84,6 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   res.cookie("token", "", {
     expires: new Date(0),
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none'
   });
   return res.sendStatus(200);
 };
