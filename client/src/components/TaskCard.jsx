@@ -25,12 +25,12 @@ const TaskCard = ({ task, isModal }) => {
       >
         <header
           className={`py-2 bg-black lg:py-4  px-4 line-clamp-1 flex items-center rounded-t-md ${
-            isModal ? "row-span-1" : "row-span-2"
+            isModal ? "row-span-1 overflow-auto" : "row-span-2"
           }`}
         >
           <h1
-            className={`text-xl md:text-2xl text-slate-100 font-bold  ${
-              isModal ? "overflow-auto break-words" : "truncate"
+            className={`md:text-2xl text-slate-100 font-bold  ${
+              isModal ? "break-words" : "truncate"
             }`}
           >
             {task.title}
